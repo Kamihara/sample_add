@@ -9,7 +9,7 @@ describe "StaticPages" do
     it { should have_content(heading) }
     it { should have_title(full_title(page_title)) }
   end
- 
+
   # the test for "Home Page"
   describe "Home Page" do
     before { visit root_path }
@@ -44,7 +44,7 @@ describe "StaticPages" do
     before { visit about_path }
     let(:heading)    { 'About Us' }
     let(:page_title) { 'About Us' }
-    
+
     it_should_behave_like "all static pages"
     # # it "should have the content 'About Us'" do
     # it { should have_content('About Us') }
@@ -57,7 +57,7 @@ describe "StaticPages" do
     before { visit contact_path }
     let(:heading)    { 'Contact' }
     let(:page_title) { 'Contact' }
-    
+
     it_should_behave_like "all static pages"
     # # it "should have the content 'Contact'" do
     # it { should have_content('Contact') }
