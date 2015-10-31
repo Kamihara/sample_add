@@ -18,12 +18,22 @@ describe "StaticPages" do
 
     it_should_behave_like "all static pages"
     it { should_not have_title('| Home') }
-    # # it "should have the content 'Sample App'" do
-    # it { should have_content('Sample App') }
-    # # it "should have the base title" do
-    # it { should have_title(full_title('')) }
-    # # it "should not have a custom page title" do
-    # it { should_not have_title("| Home") }
+
+    describe "for signed-in users" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
+        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        sign_in user
+        visit root_path
+      end
+
+      it "should render the user's feed" do
+        user.feed.each do |item|
+          expect(page).to have_selector("li##{item.id}", text: item.content)
+        end
+      end
+    end
   end
 
   # the test for "Help Page"
@@ -33,10 +43,6 @@ describe "StaticPages" do
     let(:page_title) { 'Help' }
 
     it_should_behave_like "all static pages"
-    # # it "should have the content 'Help'" do
-    # it { should have_content('Help') }
-    # # it "should have the title 'Help'" do
-    # it { should have_title(full_title('Help')) }
   end
 
   # the test for "About Page"
@@ -46,10 +52,6 @@ describe "StaticPages" do
     let(:page_title) { 'About Us' }
 
     it_should_behave_like "all static pages"
-    # # it "should have the content 'About Us'" do
-    # it { should have_content('About Us') }
-    # # it "should have the title 'About Us'" do
-    # it { should have_title(full_title('About Us')) }
   end
 
   # the test for "Contact"
@@ -59,10 +61,6 @@ describe "StaticPages" do
     let(:page_title) { 'Contact' }
 
     it_should_behave_like "all static pages"
-    # # it "should have the content 'Contact'" do
-    # it { should have_content('Contact') }
-    # # it "should have the title 'Contact'" do
-    # it { should have_title(full_title('Contact')) }
   end
 
   it "should have the right links on the layout" do
